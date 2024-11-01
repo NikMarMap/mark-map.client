@@ -139,7 +139,7 @@ const addMarkersToMap = () => {
     }
     let comments = markerData.comments.sort((a,b)=>moment(b.date).unix()-moment(a.date).unix()); //sort by date desc
     const popupContent = `
-      <strong>${markerData.title}</strong><br>
+  ${time} <strong>${markerData.title}</strong><br>
       ${comments
         .map((comment) => `<p><strong>${moment(comment.date).format('HH:mm')}:</strong> ${comment.text}</p>`)
         .join('')}
