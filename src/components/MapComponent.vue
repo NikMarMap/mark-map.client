@@ -78,7 +78,7 @@ const loadMarkersFromJSON = async () => {
 
 const initMap = () => {
   if(!map) return;
-  let m  = L.map('map').setView([50, 36.26], 11);
+  let m  = L.map('map').setView([50, 36.26], 13);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors',
