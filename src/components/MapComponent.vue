@@ -22,6 +22,13 @@ import { ref, onMounted } from 'vue';
 import L from 'leaflet';
 import moment from 'moment';
 import 'leaflet/dist/leaflet.css';
+
+class MapInfoPoints{
+  score: number='';
+  date: Date=new Date();
+  points: MarkPoint[]=[];
+
+}
 class MarkPoint{
   id: string='';
   lat: number=0;
@@ -41,15 +48,10 @@ class MarkComment{
 
 const map = ref<L.Map | null>(null);
 const showDialog = ref(false);
-const newMarker = ref<MarkPoint>({
-  id:'',
+const newMarker = ref<MapInfoPoints>({
+  score: 0,
   date: new Date(),
-  lat: 51.505,
-  lng: -0.09,
-  title:'',
-  type: 0,
-  oldMinutes: 0,
-  comments: [],
+  points: [],
 });
 const markersData = ref<MarkPoint[]>([]);
 const markerIcons = {
@@ -67,7 +69,9 @@ const markerIcons = {
 
 const loadMarkersFromJSON = async () => {
   try {
-    const response = await fetch('./markers.json');
+    //const response = await fetch('./markers.json');
+    const response = await fetch('https://api.jsonbin.io/v3/b/67251516acd3cb34a8a0c115');
+    
     const data = await response.json();
     markersData.value = data;
     addMarkersToMap();
