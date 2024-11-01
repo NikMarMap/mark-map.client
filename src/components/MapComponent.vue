@@ -85,7 +85,7 @@ const loadMarkersFromJSON = async () => {
     const response = await fetch('https://api.jsonbin.io/v3/b/67251516acd3cb34a8a0c115');
     
     const data = await response.json();
-    markersData.value = data;
+    markersData.value = data.record;
     addMarkersToMap();
   } catch (error) {
     console.error('Ошибка загрузки данных:', error);
