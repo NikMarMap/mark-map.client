@@ -87,7 +87,7 @@ const initMap = () => {
 };
 
 const addMarkersToMap = () => {
-  markersData.value.forEach((markerData) => {
+  markersData.value.forEach((markerData:MarkPoint) => {
     //const icon = markerIcons[markerData.type] || markerIcons.red;
     const markerStyle = {
       color: 'red',
@@ -121,10 +121,10 @@ const addMarkersToMap = () => {
     if (markerData.date) {
       time = moment(markerData.date).format('HH:mm');
     }
-
+    let comments = markerData.comments.sort((a,b)=>b.date-a.date); //sort by date desc
     const popupContent = `
       <strong>${markerData.title}</strong><br>
-      ${markerData.comments
+      ${comments
         .map((comment) => `<p><strong>${moment(comment.date).format('HH:mm')}:</strong> ${comment.text}</p>`)
         .join('')}
     `;
