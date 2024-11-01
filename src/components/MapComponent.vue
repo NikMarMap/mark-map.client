@@ -47,7 +47,7 @@ const markerIcons = {
 
 const loadMarkersFromJSON = async () => {
   try {
-    const response = await fetch('/markers.json');
+    const response = await fetch('./markers.json');
     const data = await response.json();
     markersData.value = data;
     addMarkersToMap();
