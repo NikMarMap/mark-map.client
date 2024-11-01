@@ -24,7 +24,7 @@ import moment from 'moment';
 import 'leaflet/dist/leaflet.css';
 
 class MapInfoPoints{
-  score: number='';
+  score: number=0;
   date: Date=new Date();
   points: MarkPoint[]=[];
 
@@ -48,12 +48,24 @@ class MarkComment{
 
 const map = ref<L.Map | null>(null);
 const showDialog = ref(false);
-const newMarker = ref<MapInfoPoints>({
+const newMarker = ref<MarkPoint>({
+  id: '',
+  lat: 0,
+  lng: 0,
+  title: '',
+  type: 0,
+  oldMinutes: 0,
+  comments: [],
+  date: new Date(),
+});
+
+const markersData = ref<MapInfoPoints>({
   score: 0,
   date: new Date(),
   points: [],
+
+
 });
-const markersData = ref<MarkPoint[]>([]);
 const markerIcons = {
   red: new L.Icon({
     iconUrl: 'https://example.com/red-icon.png',
@@ -91,7 +103,7 @@ const initMap = () => {
 };
 
 const addMarkersToMap = () => {
-  markersData.value.forEach((markerData:MarkPoint) => {
+  markersData.value.points.forEach((markerData:MarkPoint) => {
     //const icon = markerIcons[markerData.type] || markerIcons.red;
     const markerStyle = {
       color: 'red',
@@ -125,7 +137,7 @@ const addMarkersToMap = () => {
     if (markerData.date) {
       time = moment(markerData.date).format('HH:mm');
     }
-    let comments = markerData.comments.sort((a,b)=>b.date-a.date); //sort by date desc
+    let comments = markerData.comments.sort((a,b)=>moment(b.date).unix()-moment(a.date).unix()); //sort by date desc
     const popupContent = `
       <strong>${markerData.title}</strong><br>
       ${comments
@@ -165,6 +177,7 @@ const addNewMarker = () => {
 onMounted(() => {
   initMap();
   loadMarkersFromJSON();
+  setInterval(()=>loadMarkersFromJSON(), 2*60_000);
 });
 </script>
 
